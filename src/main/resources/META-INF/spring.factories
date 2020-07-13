@@ -1,2 +1,0 @@
-# auto configuration
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.xin.druid.configuration.DruidAutoConfiguration

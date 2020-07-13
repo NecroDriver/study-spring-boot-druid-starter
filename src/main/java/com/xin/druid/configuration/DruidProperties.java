@@ -1,6 +1,7 @@
 package com.xin.druid.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Druid属性配置
@@ -9,25 +10,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author updater
  * @version 1.0.0
  */
+@Component
 @ConfigurationProperties(prefix = "spring.datasource.druid")
 public class DruidProperties {
-
-    private String name;
-    private String url;
-    private String username;
-    private String password;
-    /**
-     * 初始化大小
-     */
-    private Integer initialSize = 5;
-    /**
-     * 最小连接数
-     */
-    private Integer minIdle = 5;
-    /**
-     * 最大活跃连接数
-     */
-    private Integer maxActive = 20;
     private WebStatFilter webStatFilter = new WebStatFilter();
     private StatViewServlet statViewServlet = new StatViewServlet();
 
@@ -125,62 +110,6 @@ public class DruidProperties {
         public void setLoginPassword(String loginPassword) {
             this.loginPassword = loginPassword;
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getInitialSize() {
-        return initialSize;
-    }
-
-    public void setInitialSize(Integer initialSize) {
-        this.initialSize = initialSize;
-    }
-
-    public Integer getMinIdle() {
-        return minIdle;
-    }
-
-    public void setMinIdle(Integer minIdle) {
-        this.minIdle = minIdle;
-    }
-
-    public Integer getMaxActive() {
-        return maxActive;
-    }
-
-    public void setMaxActive(Integer maxActive) {
-        this.maxActive = maxActive;
     }
 
     public WebStatFilter getWebStatFilter() {

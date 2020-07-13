@@ -1,10 +1,12 @@
 package com.xin.druid.configuration;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,27 +25,19 @@ public class DruidTestController {
      * 数据源配置
      */
     @Autowired
-    DruidAutoConfiguration druidAutoConfiguration;
+    DataSource dataSource;
 
     /**
      * 测试数据源
-     *
-     * @return 当前时间
      */
     @GetMapping("/dataSource")
-    public String testDataSource() {
-        String time = "";
-        try {
-            Connection connect = druidAutoConfiguration.dataSource().getConnection();
-            PreparedStatement ps = connect.prepareStatement("select now() as time FROM DUAL");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                time = rs.getString("time");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return time;
+    public void testDataSource() throws SQLException {
+        System.out.println(dataSource.getClass());
+        Connection connect = dataSource.getConnection();
+        System.out.println(connect);
+        DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+        System.out.println("数据源最大连接数：" + druidDataSource.getMaxActive());
+        System.out.println("数据源初始化连接数：" + druidDataSource.getInitialSize());
+        connect.close();
     }
-
 }

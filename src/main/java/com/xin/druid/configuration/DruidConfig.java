@@ -5,12 +5,12 @@ import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import javax.servlet.Servlet;
 import javax.sql.DataSource;
@@ -19,38 +19,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author creator mafh 2019/11/11 14:58
- * @author updater
+ * DruidConfig druid连接池配置
+ *
+ * @author mfh 2020/7/13 17:37
  * @version 1.0.0
- */
-@EnableConfigurationProperties(DruidProperties.class)
+ **/
 @Configuration
-public class DruidAutoConfiguration {
+public class DruidConfig {
 
-    private final Logger logger = LoggerFactory.getLogger(DruidAutoConfiguration.class);
+    private final Logger logger = LoggerFactory.getLogger(DruidConfig.class);
 
-    private final DruidProperties druidProperties;
+    @Autowired
+    private DruidProperties druidProperties;
 
-    public DruidAutoConfiguration(DruidProperties druidProperties) {
-        this.druidProperties = druidProperties;
-    }
-
-    /**
-     * @ Bean 声明，DataSource 对象为 Spring 容器所管理;
-     * @ Primary 表示这里定义的DataSource将覆盖其他来源的DataSource。
-     */
+    @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
-    @Primary
-    public DataSource dataSource() {
+    public DataSource druidDataSource() {
         logger.info("==== init druid dataSource ====");
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl(druidProperties.getUrl());
-        dataSource.setUsername(druidProperties.getUsername());
-        dataSource.setPassword(druidProperties.getPassword());
-        dataSource.setInitialSize(druidProperties.getInitialSize());
-        dataSource.setMinIdle(druidProperties.getInitialSize());
-        dataSource.setMaxActive(druidProperties.getMaxActive());
-        return dataSource;
+        return new DruidDataSource();
     }
 
     /**
@@ -79,6 +65,7 @@ public class DruidAutoConfiguration {
         initParam.put("allow", druidProperties.getStatViewServlet().getAllow());
         // IP黑名单 (存在共同时，deny优先于allow)
         initParam.put("deny", druidProperties.getStatViewServlet().getDeny());
+        //设置初始化参数
         servletRegistrationBean.setInitParameters(initParam);
         return servletRegistrationBean;
     }

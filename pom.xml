@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.xin</groupId>
     <artifactId>study-spring-boot-druid-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>study-spring-boot-druid-starter</name>
     <description>Study project for Spring Boot Starter</description>
 
@@ -22,24 +22,32 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!--打包时不引入-->
+            <scope>provided</scope>
+        </dependency>
+        <!--必须，否则会报错-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-        <!--        数据库连接-->
+        <!--数据库连接-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!--        druid连接池-->
+        <!--druid连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.21</version>
+            <version>1.1.23</version>
         </dependency>
-        <!--        自动生成配置关联-->
+        <!--自动生成配置关联-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
